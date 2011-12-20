@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<style name="Theme.Wbor" parent="@android:style/Theme.Holo.Light">
+	    <item name="@android:actionBarStyle">
+	    	    @style/Theme.Wbor.ActionBar
+	    </item>
+	    <item name="@android:tabWidgetStyle">
+	        @style/Theme.Wbor.ActionBar.TabBar
+	    </item>
+	</style>
+
+	<style name="Theme.Wbor.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+	    <item name="@android:background">
+	        #6666FF
+	    </item>
+	    <item name="@android:backgroundStacked">
+	        #A7A0F7
+	    </item>	
+	    <item name="@android:titleTextStyle">
+	        @style/Theme.Wbor.ActionBar.Title
+	    </item>
+	</style>
+
+	<style name="Theme.Wbor.ActionBar.TabBar" parent="@android:style/Widget.Holo.Light.ActionBar.TabBar">
+	    <item name="@android:background">
+	        #A7A0F7
+	    </item>
+	    <item name="@android:color">
+	        #FFFFFF
+	    </item>
+	</style>
+
+	<style name="Theme.Wbor.ActionBar.Title" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+	    <item name="@android:textColor">
+	        #FFFFFF
+	    </item>
+	</style>
+
+</resources>
