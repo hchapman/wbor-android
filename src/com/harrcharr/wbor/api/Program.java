@@ -2,7 +2,7 @@ package com.harrcharr.wbor.api;
 
 import org.json.JSONObject;
 
-public class Program extends ApiObject {
+public class Program extends JsonApiObject {
 	public static final String API_OBJECT_NAME = "program";
 	
 	private String mName;

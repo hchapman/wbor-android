@@ -13,7 +13,8 @@ import org.json.JSONObject;
 import android.os.Message;
 
 public class Wbor {
-	public static final String API_BASE_URL = "http://1-6-api1.wbor-hr.appspot.com/api/";
+//	public static final String API_BASE_URL = "http://1-6-api1.wbor-hr.appspot.com/api/";
+	public static final String API_BASE_URL = "http://192.168.1.103:8080/api/";
 	
 	public static JSONObject getJSONResponseFromApi(String apiCall) {
 		String jsonString = "";
@@ -55,9 +56,8 @@ public class Wbor {
 			for (int i = 0; i < lastPlays.length(); i++) {
 				String key = lastPlays.getString(i);
 				if (key != JSONObject.NULL) {
-					Play play = new Play(lastPlays.getJSONObject(i));
-					play.getSong().loadFromApi();
-					lastPlaysArray.add(play);
+					lastPlaysArray.add(new Play(lastPlays.getJSONObject(i))
+					.maybeLoadSongFromApi());
 				}
 			}
 		} catch (Exception e) {

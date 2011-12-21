@@ -58,10 +58,9 @@ public class NowPlayingFragment extends Fragment {
         	public void run() {
         		Message msg = new Message();
         		try {
-        			Play play = Wbor.getNowPlaying();
-        			play.getSong().loadFromApi();
-        			msg.obj = play;
-        			
+        			msg.obj = Wbor.getNowPlaying()
+        					.maybeLoadSongFromApi();
+
         			updateHandler.sendMessage(msg);
         		} catch (Exception e) {
         			e.printStackTrace();

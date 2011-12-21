@@ -6,17 +6,15 @@ public abstract class ApiObject {
 	protected String mKey;
 	protected boolean loadedFromApi = false;
 
-	protected abstract ApiObject loadFromJSON(JSONObject json);
-	public ApiObject loadFromApi() {
-		String apiCall = this.getApiName() + "/" + this.mKey;
-		try {
-			this.loadFromJSON(Wbor.getJSONResponseFromApi(apiCall));
-			this.loadedFromApi = true;
-		} catch (Exception e) {
-			
-		}
-		return this;
+	public ApiObject() {
+		loadedFromApi = false;
 	}
+	public ApiObject(String key) {
+		mKey = key;
+		loadedFromApi = false;
+	}
+	
+	public abstract ApiObject loadFromApi();
 	public ApiObject maybeLoadFromApi() {
 		if (!(this.loadedFromApi || this.mKey == null)) {
 			return this.loadFromApi();

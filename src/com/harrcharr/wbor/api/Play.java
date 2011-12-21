@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.json.JSONObject;
 
-public class Play extends ApiObject {
+public class Play extends JsonApiObject {
 	public static final String API_OBJECT_NAME = "play";
 	
 	private Song mSong;
@@ -24,6 +24,15 @@ public class Play extends ApiObject {
 	public Play(Song song, Program program) {
 		this.mSong = song;
 		this.mProgram = program;
+	}
+	
+	public Play maybeLoadSongFromApi() {
+		getSong().maybeLoadFromApi();
+		return this;
+	}
+	public Play maybeLoadProgramFromApi() {
+		getProgram().maybeLoadFromApi();
+		return this;
 	}
 	
 	public Song getSong() {

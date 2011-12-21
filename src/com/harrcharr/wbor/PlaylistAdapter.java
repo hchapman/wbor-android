@@ -51,6 +51,7 @@ public class PlaylistAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.trackName = (TextView) convertView.findViewById(R.id.track_name);
             holder.artistName = (TextView) convertView.findViewById(R.id.artist_name);
+            holder.albumCover = (ImageView) convertView.findViewById(R.id.album_cover);
 
             convertView.setTag(holder);
         } else {
@@ -64,6 +65,7 @@ public class PlaylistAdapter extends BaseAdapter {
         // Bind the data efficiently with the holder.
         holder.trackName.setText(mPlays.get(position).getSong().getTrackName());
         holder.artistName.setText(mPlays.get(position).getSong().getArtistName());
+        
 
         return convertView;
 	}
@@ -71,5 +73,6 @@ public class PlaylistAdapter extends BaseAdapter {
 	static class ViewHolder {
         TextView trackName;
         TextView artistName;
+        ImageView albumCover;
     }
 }
