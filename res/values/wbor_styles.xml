@@ -5,8 +5,8 @@
 	    <item name="@android:actionBarStyle">
 	    	    @style/Theme.Wbor.ActionBar
 	    </item>
-	    <item name="@android:tabWidgetStyle">
-	        @style/Theme.Wbor.ActionBar.TabBar
+	    <item name="@android:actionBarTabTextStyle">
+	        @style/Theme.Wbor.ActionBar.TabText
 	    </item>
 	</style>
 
@@ -22,15 +22,12 @@
 	    </item>
 	</style>
 
-	<style name="Theme.Wbor.ActionBar.TabBar" parent="@android:style/Widget.Holo.Light.ActionBar.TabBar">
-	    <item name="@android:background">
-	        #A7A0F7
-	    </item>
-	    <item name="@android:color">
+	<style name="Theme.Wbor.ActionBar.TabText" parent="@android:style/Widget.Holo.Light.ActionBar.TabText">
+	    <item name="@android:textColor">
 	        #FFFFFF
 	    </item>
 	</style>
-
+	    
 	<style name="Theme.Wbor.ActionBar.Title" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
 	    <item name="@android:textColor">
 	        #FFFFFF

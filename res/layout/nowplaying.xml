@@ -12,14 +12,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
+        android:textSize="18sp"
         android:text="(Unknown Track)" />
 
     <TextView
         android:id="@+id/artistname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:textColor="#444444"
+        android:textSize="16sp"
+        android:textColor="#666666"
         android:text="(Unknown Artist)" />
 
 </LinearLayout>

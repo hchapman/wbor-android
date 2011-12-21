@@ -1,6 +1,5 @@
 package com.harrcharr.wbor;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBar;
@@ -17,7 +16,6 @@ public class WborActivity extends ActionBarTabsPager {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewPager poop;
 
         setContentView(R.layout.main);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -26,6 +24,7 @@ public class WborActivity extends ActionBarTabsPager {
         ActionBar.Tab tab2 = getSupportActionBar().newTab().setText("Recently");
 
         mViewPager = (ViewPager)findViewById(R.id.pager);
+        System.err.println(mViewPager);
         mTabsAdapter = new TabsAdapter(this, getSupportActionBar(), mViewPager);
         mTabsAdapter.addTab(tab1, NowPlayingFragment.class);
         mTabsAdapter.addTab(tab2, LastPlayedFragment.class);
