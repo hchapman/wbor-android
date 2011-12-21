@@ -43,8 +43,8 @@ public class LastPlayedFragment extends ListFragment {
         	@SuppressWarnings("unchecked")
 			@Override
         	public void handleMessage(Message msg) {        		
-        		setListAdapter(new ArrayAdapter<Play>(getView().getContext(), 
-        				R.layout.list_item, (ArrayList<Play>)msg.obj));
+        		setListAdapter(new PlaylistAdapter(getView().getContext(), 
+        				(ArrayList<Play>)msg.obj));
 
         		ListView lv = getListView();
         		lv.setTextFilterEnabled(true);
