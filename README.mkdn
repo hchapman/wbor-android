@@ -1,3 +1,8 @@
 Wbor.org android application. Realistically, it's just a silly project
 which lets me get my hands on making a GAE-app-API and working with
 Android development.
+
+Building is only really tested with Eclipse (which I have been using).
+
+Build requirements: 
+* Jake Wharton's ActionBarSherlock library.
