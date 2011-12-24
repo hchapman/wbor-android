@@ -21,6 +21,9 @@ public abstract class ApiObject {
 		}
 		return this;
 	}
+	public boolean isLoadedFromApi() {
+		return loadedFromApi;
+	}
 	
 	public void setKey(String key) {
 		this.mKey = key;

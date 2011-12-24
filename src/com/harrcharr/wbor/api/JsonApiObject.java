@@ -11,7 +11,12 @@ public abstract class JsonApiObject extends ApiObject {
 	}
 	
 	protected abstract JsonApiObject loadFromJSON(JSONObject json);
+	
 	public JsonApiObject loadFromApi() {
+		if (this.mKey == null) {
+			return this;
+		}
+		
 		String apiCall = this.getApiName() + "/" + this.mKey;
 		try {
 			this.loadFromJSON(Wbor.getJSONResponseFromApi(apiCall));

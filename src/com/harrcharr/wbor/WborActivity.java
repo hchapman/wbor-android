@@ -20,14 +20,16 @@ public class WborActivity extends ActionBarTabsPager {
         setContentView(R.layout.main);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
-        ActionBar.Tab tab1 = getSupportActionBar().newTab().setText("Now Playing");
-        ActionBar.Tab tab2 = getSupportActionBar().newTab().setText("Recently");
+        ActionBar.Tab nowPlayingTab = getSupportActionBar().newTab().setText("Now Playing");
+        ActionBar.Tab lastPlayedTab = getSupportActionBar().newTab().setText("Recently");
+        ActionBar.Tab newShelfTab = getSupportActionBar().newTab().setText("New Shelf");
 
         mViewPager = (ViewPager)findViewById(R.id.pager);
         System.err.println(mViewPager);
         mTabsAdapter = new TabsAdapter(this, getSupportActionBar(), mViewPager);
-        mTabsAdapter.addTab(tab1, NowPlayingFragment.class);
-        mTabsAdapter.addTab(tab2, LastPlayedFragment.class);
+        mTabsAdapter.addTab(nowPlayingTab, NowPlayingFragment.class);
+        mTabsAdapter.addTab(lastPlayedTab, LastPlayedFragment.class);
+        mTabsAdapter.addTab(newShelfTab, NewShelfFragment.class);
 
         if (savedInstanceState != null) {
         	getSupportActionBar().setSelectedNavigationItem(savedInstanceState.getInt("index"));

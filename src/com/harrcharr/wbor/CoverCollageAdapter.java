@@ -7,23 +7,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
+import com.harrcharr.wbor.api.Album;
 import com.harrcharr.wbor.api.Cover;
-import com.harrcharr.wbor.api.Play;
 
-public class PlaylistAdapter extends BaseAdapter {
-	private List<Play> mPlays;
+public class CoverCollageAdapter extends BaseAdapter {
+	private List<Album> mAlbums;
 	private LayoutInflater mInflater;
 	
-	public PlaylistAdapter(Context context, List<Play> play) {
-		mPlays = play;
+	public CoverCollageAdapter(Context context, List<Album> albums) {
+		mAlbums = albums;
 		mInflater = LayoutInflater.from(context);
 	}
 	
 	@Override
 	public int getCount() {
-		return mPlays.size();
+		return mAlbums.size();
 	}
 
 	@Override
@@ -44,14 +43,11 @@ public class PlaylistAdapter extends BaseAdapter {
         // to reinflate it. We only inflate a new View when the convertView supplied
         // by ListView is null.
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.play_list_item_view, null);
+            convertView = mInflater.inflate(R.layout.cover_collage_item_view, null);
 
             // Creates a ViewHolder and store references to the two children views
             // we want to bind data to.
             holder = new ViewHolder();
-            holder.trackName = (TextView) convertView.findViewById(R.id.track_name);
-            holder.artistName = (TextView) convertView.findViewById(R.id.artist_name);
-            holder.albumName = (TextView) convertView.findViewById(R.id.album_name);
             holder.albumCover = (CoverView) convertView.findViewById(R.id.album_cover);
 
             convertView.setTag(holder);
@@ -61,26 +57,13 @@ public class PlaylistAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Play play = mPlays.get(position);
-        
-        System.err.println(play.toString());
-        
-        // Bind the data efficiently with the holder.
-        holder.trackName.setText(play.getSong().getTrackName());
-        holder.artistName.setText(play.getSong().getArtistName());
-        
-        String albumName = play.getSong().getAlbum().getTitle();
-        holder.albumName.setText(albumName);
-        Cover cover = play.getSong().getAlbum().getSmallCover();
+        Cover cover = mAlbums.get(position).getSmallCover();
         holder.albumCover.setCover(cover);
 
         return convertView;
 	}
 	
 	static class ViewHolder {
-        TextView trackName;
-        TextView artistName;
-        TextView albumName;
         CoverView albumCover;
     }
 }
