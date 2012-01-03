@@ -12,7 +12,7 @@ public abstract class JsonApiObject extends ApiObject {
 	
 	protected abstract JsonApiObject loadFromJSON(JSONObject json);
 	
-	public void loadFromApi() {
+	public synchronized void loadFromApi() {
 		if (this.mKey != null) {
 			String apiCall = this.getApiName() + "/" + this.mKey;
 			try {

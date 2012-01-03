@@ -1,13 +1,6 @@
 package com.harrcharr.wbor;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
-
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,29 +10,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.harrcharr.wbor.api.ApiObject;
 import com.harrcharr.wbor.api.Play;
 import com.harrcharr.wbor.api.Wbor;
 
 public class NowPlayingFragment extends Fragment {
-	Handler updateHandler;
+	Handler mUpdateHandler;
+	
+	protected Play mPlay;
+	protected TextView mTrackView;
+	protected TextView mArtistView;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
+
 		
-        updateHandler = new Handler() {
+        mUpdateHandler = new Handler() {
         	@Override
         	public void handleMessage(Message msg) {
-        		Play play = (Play)msg.obj;
-        		TextView songTitleView = (TextView)getView()
-        				.findViewById(R.id.trackname);
-        		TextView songArtistView = (TextView)getView()
-        				.findViewById(R.id.artistname);
-        		try {
-        			songTitleView.setText(play.getSong().getTrackName());
-        			songArtistView.setText(play.getSong().getArtistName());
-        		} catch (Exception e) {
-        			e.printStackTrace();
+        		if (msg.obj != null) {
+        			mPlay = (Play)msg.obj;
+        		}
+
+        		if (mPlay != null) {
+        			try {
+        				mTrackView.setText(mPlay.getSong().getTrackName());
+        				mArtistView.setText(mPlay.getSong().getArtistName());
+        			} catch (Exception e) {
+        				e.printStackTrace();
+        			}
         		}
         	}
         };
@@ -48,7 +48,12 @@ public class NowPlayingFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.nowplaying, container, false);
+		View v = inflater.inflate(R.layout.nowplaying, container, false);
+		mTrackView = (TextView)v
+				.findViewById(R.id.trackname);
+		mArtistView = (TextView)v
+				.findViewById(R.id.artistname);
+		return v;
 	}
 	
 	@Override
@@ -58,10 +63,10 @@ public class NowPlayingFragment extends Fragment {
         	public void run() {
         		Message msg = new Message();
         		try {
-        			msg.obj = Wbor.getNowPlaying()
-        					.maybeLoadSongFromApi();
-
-        			updateHandler.sendMessage(msg);
+        			mPlay = Wbor.getNowPlaying();
+        			mPlay.maybeLoadAsyncFromApi(
+        					Play.PROPERTY_ALBUM | Play.PROPERTY_PROGRAM,
+        					mUpdateHandler);
         		} catch (Exception e) {
         			e.printStackTrace();
         		}

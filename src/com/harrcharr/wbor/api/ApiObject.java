@@ -1,5 +1,7 @@
 package com.harrcharr.wbor.api;
 
+import android.os.Handler;
+
 public abstract class ApiObject {
 	protected String mKey;
 	protected boolean loadedFromApi = false;
@@ -24,6 +26,30 @@ public abstract class ApiObject {
 			this.loadFromApi();
 		}
 	}
+	public void maybeLoadFromApi(int flags){
+		maybeLoadFromApi();
+	}
+	public void maybeLoadAsyncFromApi(final int flags, final Handler handler) {
+		final ApiObject msgObj = this;
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				maybeLoadFromApi(flags);
+				if (handler != null) {
+					handler.sendMessage(handler.obtainMessage(0, msgObj));
+				}
+			}}).start();
+	}
+	public void maybeLoadAsyncFromApi(final Handler handler) {
+		maybeLoadAsyncFromApi(0, handler);
+	}
+	public void maybeLoadAsyncFromApi(int flags) {
+		maybeLoadAsyncFromApi(flags, null);
+	}
+	public void maybeLoadAsyncFromApi() {
+		maybeLoadAsyncFromApi(0, null);
+	}
+	
 	public boolean isLoadedFromApi() {
 		return loadedFromApi;
 	}
@@ -38,4 +64,14 @@ public abstract class ApiObject {
 	}
 	
 	protected abstract String getApiName();
+	
+	public static class NotLoadedException extends Exception {
+		private static final long serialVersionUID = -1624769375580840095L;
+		public NotLoadedException() {
+			super();
+		}
+		public NotLoadedException(String msg) {
+			super(msg);
+		}
+	}
 }

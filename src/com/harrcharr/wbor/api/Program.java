@@ -21,9 +21,8 @@ public class Program extends JsonApiObject {
 		
 	}
 	
-	public Program maybeLoadFromApi(int flags) {
-		maybeLoadFromApi();
-		return this;
+	public void maybeLoadFromApi(int flags) {
+		super.maybeLoadFromApi(flags);
 	}
 	
 	@Override

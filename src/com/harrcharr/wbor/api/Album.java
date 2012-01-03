@@ -42,9 +42,8 @@ public class Album extends JsonApiObject {
 		return mSmallCover;
 	}
 	
-	public Album maybeLoadFromApi(int flags) {
-		maybeLoadFromApi();
-		return this;
+	public void maybeLoadFromApi(int flags) {
+		super.maybeLoadFromApi(flags);
 	}
 
 	@Override

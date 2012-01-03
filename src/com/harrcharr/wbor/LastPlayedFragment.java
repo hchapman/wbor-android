@@ -52,6 +52,11 @@ public class LastPlayedFragment extends ListFragment {
         		Message msg = new Message();
         		try {
         			List<Play> plays = Wbor.getLastPlays();
+        			for (Play play : plays) {
+        				play.maybeLoadAsyncFromApi(
+        						Play.PROPERTY_ALBUM | 
+        						Play.PROPERTY_SONG);
+        			}
         			msg.obj = plays;
         			
         			updateHandler.sendMessage(msg);

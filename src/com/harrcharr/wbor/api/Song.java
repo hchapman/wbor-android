@@ -44,14 +44,13 @@ public class Song extends JsonApiObject {
 		return this;
 	}
 	
-	public Song maybeLoadFromApi(int flags) {
-		maybeLoadFromApi();
+	public void maybeLoadFromApi(int flags) {
+		super.maybeLoadFromApi(flags);
 		if (mAlbum != null) {
 			if ((flags & PROPERTY_ALBUM) != 0) {
 				mAlbum.maybeLoadFromApi(flags);
 			}
 		}
-		return this;
 	}
 	
 	public String getTrackName() {

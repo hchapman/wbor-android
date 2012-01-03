@@ -27,8 +27,8 @@ public class Play extends JsonApiObject {
 		this.mProgram = program;
 	}
 	
-	public Play maybeLoadFromApi(int flags) {
-		maybeLoadFromApi();
+	public void maybeLoadFromApi(int flags) {
+		super.maybeLoadFromApi(flags);
 		if (mSong != null) {
 			if ((flags & PROPERTY_SONG) != 0 || 
 					(flags & PROPERTY_ALBUM) != 0) {
@@ -40,7 +40,6 @@ public class Play extends JsonApiObject {
 				mProgram.maybeLoadFromApi(flags);
 			}
 		}
-		return this;
 	}
 	
 	public Play maybeLoadSongFromApi() {

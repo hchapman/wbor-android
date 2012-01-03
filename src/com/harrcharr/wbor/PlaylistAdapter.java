@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.harrcharr.wbor.api.Cover;
+import com.harrcharr.wbor.api.ApiObject;
 import com.harrcharr.wbor.api.Play;
 
 public class PlaylistAdapter extends BaseAdapter {
@@ -57,7 +57,6 @@ public class PlaylistAdapter extends BaseAdapter {
             holder.artistName = (TextView) convertView.findViewById(R.id.artist_name);
             holder.albumName = (TextView) convertView.findViewById(R.id.album_name);
             holder.albumCover = (CoverView) convertView.findViewById(R.id.album_cover);
-            holder.play = mPlays.get(position);
 
             convertView.setTag(holder);
         } else {
@@ -65,17 +64,18 @@ public class PlaylistAdapter extends BaseAdapter {
             // and the ImageView.
             holder = (ViewHolder) convertView.getTag();
         }
-
-        new LoadPlayTask().execute(holder);
         
-        // Bind the data efficiently with the holder.
-//        holder.trackName.setText(play.getSong().getTrackName());
-//        holder.artistName.setText(play.getSong().getArtistName());
-//        
-//        String albumName = play.getSong().getAlbum().getTitle();
-//        holder.albumName.setText(albumName);
-//        Cover cover = play.getSong().getAlbum().getSmallCover();
-//        holder.albumCover.setCover(cover);
+        holder.play = mPlays.get(position);
+
+        try {
+        	holder.loadPlayIntoViews();
+        } catch (ApiObject.NotLoadedException e) {
+        	holder.trackName.setText("Loading...");
+        	holder.artistName.setText("");
+        	holder.albumCover.setCover(null);
+        	holder.trackName.setText("Loading...");
+        	new LoadPlayTask().execute(holder);
+        }
 
         return convertView;
 	}
@@ -86,6 +86,21 @@ public class PlaylistAdapter extends BaseAdapter {
         TextView artistName;
         TextView albumName;
         CoverView albumCover;
+        
+        public void loadPlayIntoViews() throws ApiObject.NotLoadedException {
+        	if (play.isLoadedFromApi() && play.getSong().isLoadedFromApi()) {
+        		trackName.setText(play.getSong().getTrackName());
+        		artistName.setText(play.getSong().getArtistName());
+        		if (play.getSong().getAlbum() != null) {
+        			if (play.getSong().getAlbum().isLoadedFromApi()) {
+        				albumName.setText(play.getSong().getAlbum().getTitle());
+        				albumCover.setCover(play.getSong().getAlbum().getSmallCover());	
+        			}
+        		}
+        	} else {
+        		throw new ApiObject.NotLoadedException();
+        	}
+        }
     }
 	
 	private class LoadPlayTask extends AsyncTask<ViewHolder, Void, ViewHolder> {
@@ -97,11 +112,10 @@ public class PlaylistAdapter extends BaseAdapter {
 		
 		@Override
 		protected void onPostExecute(ViewHolder v) {
-			v.trackName.setText(v.play.getSong().getTrackName());
-			v.artistName.setText(v.play.getSong().getArtistName());
-			if (v.play.getSong().getAlbum() != null) {
-				v.albumName.setText(v.play.getSong().getAlbum().getTitle());
-				v.albumCover.setCover(v.play.getSong().getAlbum().getSmallCover());	
+			try {
+				v.loadPlayIntoViews();
+			} catch (ApiObject.NotLoadedException e) {
+				
 			}
 		}
 	}
