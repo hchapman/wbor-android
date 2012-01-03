@@ -2,6 +2,7 @@ package com.harrcharr.wbor;
 
 import java.util.List;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,16 +22,6 @@ public class NewShelfFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
-		
-        updateHandler = new Handler() {
-        	@SuppressWarnings("unchecked")
-			@Override
-        	public void handleMessage(Message msg) {   
-        		mCoverGrid = (GridView)getView().findViewById(R.id.grid);
-        		mCoverGrid.setAdapter(new CoverCollageAdapter(
-        				getView().getContext(), (List<Album>)msg.obj));
-        	}
-        };
 	}
 	
 	@Override
@@ -42,18 +33,22 @@ public class NewShelfFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		new Thread(new Runnable() {
-			public void run() {
-        		Message msg = new Message();
-        		try {
-        			List<Album> albums = Wbor.getNewShelf();
-        			msg.obj = albums;
-        			
-        			updateHandler.sendMessage(msg);
-        		} catch (Exception e) {
-        			e.printStackTrace();
-        		}
-			}
-		}).start();
+		mCoverGrid = (GridView)getView().findViewById(R.id.grid);
+		new GetNewShelfTask().execute();
 	}
+	
+	private class GetNewShelfTask extends AsyncTask<Void, Void, List<Album>> {
+		@Override
+		protected List<Album> doInBackground(Void... arg0) {
+			return Wbor.getNewShelf();
+		}
+		
+		@Override
+		protected void onPostExecute(List<Album> newShelfList) {
+       		mCoverGrid = (GridView)getView().findViewById(R.id.grid);
+    		mCoverGrid.setAdapter(new CoverCollageAdapter(
+    				getView().getContext(), newShelfList));			
+		}
+	}
+	
 }

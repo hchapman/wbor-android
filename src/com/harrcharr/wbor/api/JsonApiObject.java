@@ -12,25 +12,20 @@ public abstract class JsonApiObject extends ApiObject {
 	
 	protected abstract JsonApiObject loadFromJSON(JSONObject json);
 	
-	public JsonApiObject loadFromApi() {
-		if (this.mKey == null) {
-			return this;
+	public void loadFromApi() {
+		if (this.mKey != null) {
+			String apiCall = this.getApiName() + "/" + this.mKey;
+			try {
+				this.loadFromJSON(Wbor.getJSONResponseFromApi(apiCall));
+				this.loadedFromApi = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}		
 		}
-		
-		String apiCall = this.getApiName() + "/" + this.mKey;
-		try {
-			this.loadFromJSON(Wbor.getJSONResponseFromApi(apiCall));
-			this.loadedFromApi = true;
-		} catch (Exception e) {
-			
-		}
-		return this;
 	}
-
 
 	@Override
 	protected String getApiName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -29,24 +29,25 @@ public class Cover extends ApiObject {
 	}
 	
 	@Override
-	public ApiObject loadFromApi() {
-		String apiCall = getApiName() + "/" + mKey;
-		URL apiUrl;
-		try {
-			apiUrl = new URL(Wbor.API_BASE_URL + apiCall);
-			HttpURLConnection urlConnection = (HttpURLConnection) apiUrl.openConnection();
+	public void loadFromApi() {
+		if (mKey != null) {
+			String apiCall = getApiName() + "/" + mKey;
+			URL apiUrl;
 			try {
-				InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-				mImage = BitmapFactory.decodeStream(in);
+				apiUrl = new URL(Wbor.API_BASE_URL + apiCall);
+				HttpURLConnection urlConnection = (HttpURLConnection) apiUrl.openConnection();
+				try {
+					InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+					mImage = BitmapFactory.decodeStream(in);
+				}
+				finally {
+					urlConnection.disconnect();
+				}
+				loadedFromApi = true;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			finally {
-				urlConnection.disconnect();
-			}
-			loadedFromApi = true;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		return this;
 	}
 }

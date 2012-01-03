@@ -41,9 +41,18 @@ public class Album extends JsonApiObject {
 		maybeLoadFromApi();
 		return mSmallCover;
 	}
+	
+	public Album maybeLoadFromApi(int flags) {
+		maybeLoadFromApi();
+		return this;
+	}
 
 	@Override
 	protected Album loadFromJSON(JSONObject json) {
+		if (json == null) {
+			return this;
+		}
+		
 		try {
 			String key, title, artistName, smallKey, largeKey;
 			JSONArray songList;

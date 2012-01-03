@@ -21,6 +21,11 @@ public class Program extends JsonApiObject {
 		
 	}
 	
+	public Program maybeLoadFromApi(int flags) {
+		maybeLoadFromApi();
+		return this;
+	}
+	
 	@Override
 	protected Program loadFromJSON(JSONObject json) {
 		String key;

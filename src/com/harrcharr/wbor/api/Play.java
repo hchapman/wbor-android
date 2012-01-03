@@ -1,6 +1,7 @@
 package com.harrcharr.wbor.api;
 
 import java.util.Date;
+import java.util.List;
 
 import org.json.JSONObject;
 
@@ -24,6 +25,22 @@ public class Play extends JsonApiObject {
 	public Play(Song song, Program program) {
 		this.mSong = song;
 		this.mProgram = program;
+	}
+	
+	public Play maybeLoadFromApi(int flags) {
+		maybeLoadFromApi();
+		if (mSong != null) {
+			if ((flags & PROPERTY_SONG) != 0 || 
+					(flags & PROPERTY_ALBUM) != 0) {
+				mSong.maybeLoadFromApi(flags);
+			}
+		}
+		if (mProgram != null) {
+			if ((flags & PROPERTY_PROGRAM) != 0) {
+				mProgram.maybeLoadFromApi(flags);
+			}
+		}
+		return this;
 	}
 	
 	public Play maybeLoadSongFromApi() {

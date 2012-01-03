@@ -13,7 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/ic_dialog_info" />
+        android:src="@drawable/noalbumart" />
 
     <TextView
         android:id="@+id/track_name"

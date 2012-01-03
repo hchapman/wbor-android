@@ -1,10 +1,14 @@
 package com.harrcharr.wbor.api;
 
-import org.json.JSONObject;
-
 public abstract class ApiObject {
 	protected String mKey;
 	protected boolean loadedFromApi = false;
+	
+	public static final String TB_COL_KEY = "key";
+	
+	public static final int PROPERTY_SONG = 1;
+	public static final int PROPERTY_ALBUM = 2;
+	public static final int PROPERTY_PROGRAM = 4;
 
 	public ApiObject() {
 		loadedFromApi = false;
@@ -14,12 +18,11 @@ public abstract class ApiObject {
 		loadedFromApi = false;
 	}
 	
-	public abstract ApiObject loadFromApi();
-	public ApiObject maybeLoadFromApi() {
+	public abstract void loadFromApi();
+	public void maybeLoadFromApi() {
 		if (!(this.loadedFromApi || this.mKey == null)) {
-			return this.loadFromApi();
+			this.loadFromApi();
 		}
-		return this;
 	}
 	public boolean isLoadedFromApi() {
 		return loadedFromApi;

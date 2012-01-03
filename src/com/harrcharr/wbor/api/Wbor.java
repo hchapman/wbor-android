@@ -34,7 +34,7 @@ public class Wbor {
 		try {
 			return new JSONObject(jsonString);
 		} catch (Exception e) {
-			System.err.println("Error creating JSON object from response for call, " +apiCall);
+			System.err.println("Error creating JSON object from response for call, " + apiCall);
 			e.printStackTrace();
 		}
 		return null;
@@ -71,9 +71,7 @@ public class Wbor {
 			for (int i = 0; i < lastPlays.length(); i++) {
 				String key = lastPlays.getString(i);
 				if (key != JSONObject.NULL) {
-					Play play = new Play(lastPlays.getJSONObject(i))
-					.maybeLoadSongFromApi();
-					play.getSong().maybeLoadAlbumFromApi();
+					Play play = new Play(lastPlays.getJSONObject(i));
 					lastPlaysArray.add(play);
 				}
 			}

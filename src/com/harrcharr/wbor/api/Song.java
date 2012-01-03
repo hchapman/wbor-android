@@ -1,5 +1,7 @@
 package com.harrcharr.wbor.api;
 
+import java.util.HashMap;
+
 import org.json.JSONObject;
 
 public class Song extends JsonApiObject {
@@ -8,6 +10,18 @@ public class Song extends JsonApiObject {
 	private String mTrackName;
 	private String mArtistName;
 	private Album mAlbum;
+	
+	//                  String TB_COL_KEY
+	public static final String TB_COL_TRACK_NAME = "track_name";
+	public static final String TB_COL_ARTIST_NAME = "artist_name";
+	public static final String TB_COL_ALBUM = "album";
+	
+	public static final String DB_CREATE_TABLE = 
+			"CREATE TABLE songs_table (" +
+	                TB_COL_KEY + " TEXT, " +
+	                TB_COL_TRACK_NAME + " TEXT, " +
+	                TB_COL_ARTIST_NAME + " TEXT, " +
+	                TB_COL_ALBUM + " TEXT);";
 
 	public Song(JSONObject json){
 		this.loadFromJSON(json);
@@ -30,6 +44,16 @@ public class Song extends JsonApiObject {
 		return this;
 	}
 	
+	public Song maybeLoadFromApi(int flags) {
+		maybeLoadFromApi();
+		if (mAlbum != null) {
+			if ((flags & PROPERTY_ALBUM) != 0) {
+				mAlbum.maybeLoadFromApi(flags);
+			}
+		}
+		return this;
+	}
+	
 	public String getTrackName() {
 		maybeLoadFromApi();
 		return mTrackName;
@@ -46,17 +70,23 @@ public class Song extends JsonApiObject {
 	@Override
 	protected Song loadFromJSON(JSONObject json) {		
 		try {
-			String key, trackName, artistName, albumKey;
+			String key, trackName, artistName, albumKey = null;
 			
 			key = json.getString("key");
 			trackName = json.getString("title");
 			artistName = json.getString("artist");
-			albumKey = json.getString("album_key");
+			
+			if (!json.isNull("album_key")) {
+				albumKey = json.optString("album_key");
+			}
 
 			this.mKey = key;
 			this.mTrackName = trackName;
 			this.mArtistName = artistName;
-			this.mAlbum = new Album(albumKey);
+			
+			if (albumKey != null || albumKey != JSONObject.NULL || albumKey.equals("null")) {
+				this.mAlbum = new Album(albumKey);
+			}
 		} catch (Exception e) {
 			System.err.println("Error digesting JSON object for GET song API call");
 			e.printStackTrace();			
